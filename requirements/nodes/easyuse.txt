@@ -1,0 +1,9 @@
+diffusers
+accelerate
+clip_interrogator>=0.6.0
+lark
+opencv-python-headless
+sentencepiece
+spandrel
+matplotlib
+peft

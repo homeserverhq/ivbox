@@ -1,0 +1,10 @@
+qrcode[pil]
+requirements-parser
+rembg
+imageio_ffmpeg
+rich
+rich-argparse
+matplotlib
+pillow
+cachetools
+transformers

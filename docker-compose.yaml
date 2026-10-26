@@ -1,0 +1,58 @@
+# HSHQManaged ivbox v2
+
+services:
+  ivbox-app:
+    image: hshq/ivbox:v2
+    container_name: ivbox-app
+    hostname: ivbox-app
+    restart: unless-stopped
+    env_file: stack.env
+    security_opt:
+      - seccomp=unconfined
+      - label=disable
+    cap_add:
+      - SYS_PTRACE
+    ipc: host
+    devices:
+      - /dev/dri
+      - /dev/kfd
+    group_add:
+      - video
+      - render
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    deploy:
+      resources:
+        limits:
+          memory: 96G
+    working_dir: /opt/ComfyUI
+    command: /opt/start_docker.sh
+    ports:
+      - 9642:8188
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/ssl/certs:/etc/ssl/certs:ro
+      - /usr/share/ca-certificates:/usr/share/ca-certificates:ro
+      - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro
+      - ./comfyui/models:/models
+      - ./comfyui/input:/input
+      - ./comfyui/output:/output
+      - ./comfyui/user:/user
+      - ./comfyui/custom_nodes:/custom_nodes
+      - ./comfyui/cache:/cache
+      - ./comfyui/temp:/temp
+      - ./comfyui/huggingface:/root/.cache/huggingface
+    networks:
+      - dock-ext-net
+      - dock-aipriv-net
+
+networks:
+  dock-ext-net:
+    name: dock-ext
+    external: true
+  dock-aipriv-net:
+    name: dock-aipriv
+    external: true

@@ -1,0 +1,9 @@
+.git
+.github
+comfyui
+stack.env
+*.log
+__pycache__
+*.pyc
+.venv
+tests

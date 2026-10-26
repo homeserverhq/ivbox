@@ -1,0 +1,8 @@
+websocket-client
+huggingface_hub[hf_transfer]
+hf_xet
+pyyaml
+scipy
+imageio
+imageio-ffmpeg
+opencv-python-headless

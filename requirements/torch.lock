@@ -1,0 +1,5 @@
+numpy==2.4.2
+torch==2.12.0a0+rocm7.12.0a20260310
+torchvision==0.26.0a0+rocm7.12.0a20260310
+torchaudio==2.11.0a0+rocm7.12.0a20260310
+triton==3.6.0+gitfef7be53.rocm7.12.0a20260310

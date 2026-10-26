@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+OK="[ok]"
+WARN="[warn]"
+FAIL="[fail]"
+
+echo "IVBox doctor"
+echo "============"
+echo
+
+echo "Devices"
+for dev in /dev/kfd /dev/dri /dev/dri/renderD128; do
+    if [ -e "${dev}" ]; then
+        echo "  ${OK} ${dev}"
+    else
+        echo "  ${WARN} ${dev} missing"
+    fi
+done
+echo
+
+echo "Directories"
+for dir in /models /input /output /user /custom_nodes /cache /temp; do
+    if [ -d "${dir}" ]; then
+        echo "  ${OK} ${dir}"
+    else
+        echo "  ${FAIL} ${dir} missing"
+    fi
+done
+echo
+
+echo "ROCm / PyTorch"
+if python -c 'import torch' >/dev/null 2>&1; then
+    python - <<'PY'
+import torch
+print(f"  torch: {torch.__version__}")
+print(f"  HIP available: {torch.cuda.is_available()}")
+if torch.cuda.is_available():
+    print(f"  device: {torch.cuda.get_device_name(0)}")
+    try:
+        x = torch.randn(256, 256, device="cuda")
+        y = torch.matmul(x, x)
+        print(f"  matmul: ok ({y.shape[0]}x{y.shape[1]})")
+    except Exception as exc:
+        print(f"  matmul: failed: {exc}")
+PY
+else
+    echo "  ${FAIL} cannot import torch"
+fi
+echo
+
+echo "ComfyUI"
+if curl -fsS --max-time 3 "http://127.0.0.1:${COMFYUI_PORT:-8188}/" >/dev/null 2>&1; then
+    echo "  ${OK} HTTP responding on ${COMFYUI_PORT:-8188}"
+else
+    echo "  ${WARN} HTTP not responding yet on ${COMFYUI_PORT:-8188}"
+fi
+
+node_count="$(find /custom_nodes -mindepth 1 -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')"
+echo "  custom node entries: ${node_count}"
+echo
+
+echo "Storage"
+df -h /models /output /cache 2>/dev/null | sed 's/^/  /'
