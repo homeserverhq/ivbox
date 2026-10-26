@@ -1,4 +1,6 @@
 comfyui/
+comfyui-models/
+hf-cache/
 stack.env
 *.log
 __pycache__/

@@ -8,11 +8,12 @@ Studio, or a flash-attention build.
 
 ## Host layout
 
-All persistent data lives under `./comfyui` next to this file:
+ComfyUI data lives under `./comfyui`, large model files live under
+`./comfyui-models`, and the Hugging Face download cache lives under
+`./hf-cache`:
 
 ```text
 comfyui/
-├── models/
 ├── input/
 ├── output/
 ├── user/
@@ -20,14 +21,22 @@ comfyui/
 ├── cache/
 ├── temp/
 ├── previews/
-├── datasets/
-└── huggingface/
+└── datasets/
+
+comfyui-models/
+hf-cache/
 ```
 
-The container maps these paths as `/comfyui/models`, `/comfyui/input`,
-`/comfyui/output`, `/comfyui/user`, `/comfyui/custom_nodes`,
-`/comfyui/cache`, `/comfyui/temp`, `/comfyui/previews`,
-`/comfyui/datasets`, and `/root/.cache/huggingface`.
+The container maps them as:
+
+| Host | Container |
+|---|---|
+| `./comfyui` | `/comfyui` |
+| `./comfyui-models` | `/comfyui/models` |
+| `./hf-cache` | `/root/.cache/huggingface` |
+
+The nested `./comfyui-models:/comfyui/models` mount keeps the large model
+directory separate from the rest of the ComfyUI data.
 
 ## Build
 
@@ -105,7 +114,8 @@ startup. Edit `./comfyui/user/__manager/config.ini` to change it.
 
 ## Models
 
-Models are never baked into the image. Put them under `./comfyui/models`.
+Models are never baked into the image. Put them under `./comfyui-models`;
+they appear inside the container at `/comfyui/models`.
 
 The helper can download OSI-licensed model sets:
 
@@ -116,8 +126,7 @@ docker exec -it ivbox-app model_manager download wan-t2v wan-i2v
 docker exec -it ivbox-app model_manager verify
 ```
 
-Model downloads use the Hugging Face cache mapped to
-`./comfyui/huggingface`.
+Model downloads use the Hugging Face cache mapped to `./hf-cache`.
 
 ## Workflows
 

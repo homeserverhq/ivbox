@@ -37,16 +37,9 @@ services:
       - /etc/ssl/certs:/etc/ssl/certs:ro
       - /usr/share/ca-certificates:/usr/share/ca-certificates:ro
       - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro
-      - ./comfyui/models:/comfyui/models
-      - ./comfyui/input:/comfyui/input
-      - ./comfyui/output:/comfyui/output
-      - ./comfyui/user:/comfyui/user
-      - ./comfyui/custom_nodes:/comfyui/custom_nodes
-      - ./comfyui/cache:/comfyui/cache
-      - ./comfyui/temp:/comfyui/temp
-      - ./comfyui/previews:/comfyui/previews
-      - ./comfyui/datasets:/comfyui/datasets
-      - ./comfyui/huggingface:/root/.cache/huggingface
+      - ./comfyui:/comfyui
+      - ./comfyui-models:/comfyui/models
+      - ./hf-cache:/root/.cache/huggingface
     networks:
       - dock-ext-net
       - dock-aipriv-net
