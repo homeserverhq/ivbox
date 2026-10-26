@@ -2,7 +2,7 @@
 set -euo pipefail
 
 BAKED_DIR="${IVBOX_BAKED_NODES_DIR:-/opt/ivbox/custom_nodes}"
-USER_NODES_DIR="${IVBOX_CUSTOM_NODES_DIR:-/custom_nodes}"
+USER_NODES_DIR="${IVBOX_CUSTOM_NODES_DIR:-/comfyui/custom_nodes}"
 
 mkdir -p "${USER_NODES_DIR}"
 

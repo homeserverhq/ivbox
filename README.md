@@ -19,11 +19,15 @@ comfyui/
 ├── custom_nodes/
 ├── cache/
 ├── temp/
+├── previews/
+├── datasets/
 └── huggingface/
 ```
 
-The container maps these paths as `/models`, `/input`, `/output`, `/user`,
-`/custom_nodes`, `/cache`, `/temp`, and `/root/.cache/huggingface`.
+The container maps these paths as `/comfyui/models`, `/comfyui/input`,
+`/comfyui/output`, `/comfyui/user`, `/comfyui/custom_nodes`,
+`/comfyui/cache`, `/comfyui/temp`, `/comfyui/previews`,
+`/comfyui/datasets`, and `/root/.cache/huggingface`.
 
 ## Build
 

@@ -8,5 +8,5 @@ fi
 
 export TORCH_BLAS_PREFER_HIPBLASLT="${TORCH_BLAS_PREFER_HIPBLASLT:-1}"
 export HF_HOME="${HF_HOME:-/root/.cache/huggingface}"
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-/cache}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-/comfyui/cache}"
 export PYTHONUNBUFFERED=1

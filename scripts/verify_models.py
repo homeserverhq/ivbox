@@ -6,7 +6,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-MODELS_DIR = Path(os.environ.get("IVBOX_MODELS_DIR", "/models"))
+MODELS_DIR = Path(os.environ.get("IVBOX_MODELS_DIR", "/comfyui/models"))
 SUFFIXES = {".safetensors", ".gguf", ".ckpt", ".pt", ".pth", ".bin"}
 
 

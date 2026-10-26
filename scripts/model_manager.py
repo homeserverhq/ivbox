@@ -9,7 +9,7 @@ import shutil
 import sys
 from pathlib import Path
 
-MODELS_DIR = Path(os.environ.get("IVBOX_MODELS_DIR", "/models"))
+MODELS_DIR = Path(os.environ.get("IVBOX_MODELS_DIR", "/comfyui/models"))
 STAGING_DIR = MODELS_DIR / ".staging"
 
 MODEL_SETS: dict[str, dict[str, str]] = {

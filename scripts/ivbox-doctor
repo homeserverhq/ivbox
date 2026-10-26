@@ -20,7 +20,7 @@ done
 echo
 
 echo "Directories"
-for dir in /models /input /output /user /custom_nodes /cache /temp; do
+for dir in /comfyui/models /comfyui/input /comfyui/output /comfyui/user /comfyui/custom_nodes /comfyui/cache /comfyui/temp /comfyui/previews /comfyui/datasets; do
     if [ -d "${dir}" ]; then
         echo "  ${OK} ${dir}"
     else
@@ -56,9 +56,9 @@ else
     echo "  ${WARN} HTTP not responding yet on ${COMFYUI_PORT:-8188}"
 fi
 
-node_count="$(find /custom_nodes -mindepth 1 -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')"
+node_count="$(find /comfyui/custom_nodes -mindepth 1 -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')"
 echo "  custom node entries: ${node_count}"
 echo
 
 echo "Storage"
-df -h /models /output /cache 2>/dev/null | sed 's/^/  /'
+df -h /comfyui/models /comfyui/output /comfyui/cache 2>/dev/null | sed 's/^/  /'

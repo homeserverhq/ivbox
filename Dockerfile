@@ -8,8 +8,7 @@ ENV VIRTUAL_ENV=/opt/venv \
     PATH=/opt/venv/bin:$PATH \
     PIP_NO_CACHE_DIR=1 \
     PYTHONUNBUFFERED=1 \
-    HF_HOME=/root/.cache/huggingface \
-    XDG_CACHE_HOME=/cache
+    HF_HOME=/root/.cache/huggingface
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         python3.12 \
@@ -133,10 +132,6 @@ RUN git clone --depth=1 https://github.com/lldacing/ComfyUI_Patches_ll.git /opt/
 RUN git clone --depth=1 https://github.com/calcuis/gguf.git /opt/ivbox/custom_nodes/gguf
 RUN git clone --depth=1 https://github.com/rgthree/rgthree-comfy.git /opt/ivbox/custom_nodes/rgthree-comfy
 RUN git clone --depth=1 https://github.com/Larryvrh/ComfyUI-MiniMax-H3-Turbo.git /opt/ivbox/custom_nodes/ComfyUI-MiniMax-H3-Turbo
-
-RUN rm -rf /opt/ComfyUI/custom_nodes \
-    && mkdir -p /custom_nodes \
-    && ln -s /custom_nodes /opt/ComfyUI/custom_nodes
 
 COPY defaults /opt/ivbox/defaults
 COPY scripts /opt/ivbox/scripts

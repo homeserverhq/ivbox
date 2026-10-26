@@ -47,10 +47,6 @@ cd /opt/ComfyUI
 exec python main.py \
     --listen 0.0.0.0 \
     --port "${COMFYUI_PORT:-8188}" \
-    --models-directory /models \
-    --input-directory /input \
-    --output-directory /output \
-    --user-directory /user \
-    --temp-directory /temp \
+    --base-directory /comfyui \
     "${COMFY_FLAGS[@]}" \
     "${EXTRA_ARGS[@]}"

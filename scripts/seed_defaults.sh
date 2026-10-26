@@ -2,7 +2,7 @@
 set -euo pipefail
 
 DEFAULTS_DIR="${IVBOX_DEFAULTS_DIR:-/opt/ivbox/defaults/user}"
-USER_DIR="${IVBOX_USER_DIR:-/user}"
+USER_DIR="${IVBOX_USER_DIR:-/comfyui/user}"
 
 mkdir -p "${USER_DIR}"
 
