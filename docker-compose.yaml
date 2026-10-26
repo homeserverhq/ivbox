@@ -27,8 +27,6 @@ services:
       resources:
         limits:
           memory: 96G
-    working_dir: /opt/ComfyUI
-    command: /opt/start_docker.sh
     ports:
       - 9642:8188
     volumes:
