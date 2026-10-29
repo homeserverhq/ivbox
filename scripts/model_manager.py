@@ -12,7 +12,17 @@ from pathlib import Path
 MODELS_DIR = Path(os.environ.get("IVBOX_MODELS_DIR", "/comfyui/models"))
 STAGING_DIR = MODELS_DIR / ".staging"
 
-MODEL_SETS: dict[str, dict[str, str]] = {
+MODEL_SETS: dict[str, dict] = {
+    "z-image-turbo": {
+        "repo": "Comfy-Org/Z-Image-Turbo",
+        "description": "Z-Image Turbo default workflow (diffusion model, text encoder, VAE)",
+        "revision": "6fc90a3b1b653e935a0d175e260736de25b84df5",
+        "patterns": [
+            "split_files/diffusion_models/z_image_turbo_bf16.safetensors",
+            "split_files/text_encoders/qwen_3_4b.safetensors",
+            "split_files/vae/ae.safetensors",
+        ],
+    },
     "qwen-image": {
         "repo": "Comfy-Org/Qwen-Image_ComfyUI",
         "description": "Qwen Image 2512 ComfyUI repack",
@@ -44,6 +54,16 @@ CATEGORIES = (
 )
 
 MODEL_SUFFIXES = {".safetensors", ".gguf", ".ckpt", ".pt", ".pth", ".bin"}
+
+DEFAULT_ALLOW_PATTERNS = [
+    "*.safetensors",
+    "*.gguf",
+    "*.ckpt",
+    "*.pt",
+    "*.pth",
+    "*.bin",
+    "*.json",
+]
 
 
 def print_sets() -> None:
@@ -89,36 +109,34 @@ def move_into_place(staging: Path, dry_run: bool) -> int:
 
 def download(name: str, revision: str | None, dry_run: bool) -> int:
     info = MODEL_SETS[name]
+    revision = revision or info.get("revision")
+    patterns = info.get("patterns") or DEFAULT_ALLOW_PATTERNS
+
+    target = STAGING_DIR / name
+    if target.exists() and not dry_run:
+        shutil.rmtree(target)
+
+    print(f"Downloading {name} from {info['repo']} ...")
+    print(f"  revision: {revision or 'main'}")
+    print(f"  patterns: {', '.join(patterns)}")
+    if dry_run:
+        print(f"would download into {target}")
+        return 0
+
     try:
         from huggingface_hub import snapshot_download
     except ImportError:
         print("huggingface_hub is not installed", file=sys.stderr)
         return 2
 
-    target = STAGING_DIR / name
-    if target.exists() and not dry_run:
-        shutil.rmtree(target)
     target.mkdir(parents=True, exist_ok=True)
-
-    print(f"Downloading {name} from {info['repo']} ...")
-    if dry_run:
-        print(f"would download into {target}")
-        return 0
 
     try:
         snapshot_download(
             repo_id=info["repo"],
             revision=revision,
             local_dir=target,
-            allow_patterns=[
-                "*.safetensors",
-                "*.gguf",
-                "*.ckpt",
-                "*.pt",
-                "*.pth",
-                "*.bin",
-                "*.json",
-            ],
+            allow_patterns=patterns,
         )
     except Exception as exc:
         print(f"download failed: {exc}", file=sys.stderr)

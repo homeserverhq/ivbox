@@ -60,5 +60,18 @@ node_count="$(find /comfyui/custom_nodes -mindepth 1 -maxdepth 1 2>/dev/null | w
 echo "  custom node entries: ${node_count}"
 echo
 
+echo "Default workflow models"
+for model in \
+    "vae/ae.safetensors" \
+    "text_encoders/qwen_3_4b.safetensors" \
+    "diffusion_models/z_image_turbo_bf16.safetensors"; do
+    if [ -f "/comfyui/models/${model}" ]; then
+        echo "  ${OK} ${model}"
+    else
+        echo "  ${WARN} ${model} missing"
+    fi
+done
+echo
+
 echo "Storage"
 df -h /comfyui/models /comfyui/output /comfyui/cache 2>/dev/null | sed 's/^/  /'

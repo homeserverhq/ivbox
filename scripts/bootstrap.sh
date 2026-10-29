@@ -11,6 +11,10 @@ mkdir -p /comfyui/models \
     /comfyui/previews \
     /comfyui/datasets
 
+if ! python /opt/ivbox/scripts/model_dirs.py; then
+    echo "ivbox: warning: could not create ComfyUI model directories" >&2
+fi
+
 /opt/ivbox/scripts/seed_defaults.sh
 /opt/ivbox/scripts/link_nodes.sh
 
